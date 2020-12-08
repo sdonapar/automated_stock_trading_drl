@@ -1,126 +1,71 @@
-# Deep Reinforcement Learning for Automated Stock Trading: An Ensemble Strategy
-This repository refers to the codes for [ICAIF 2020 paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996)
+# Automated Stock Trading Using Deep Reinforcement Learning 
+
+Profitable automated stock trading strategy is vital to investment companies and hedge funds. It is applied to optimize capital allocation and maximize investment performance, such as expected return. Return maximization can be based on the estimates of potential return and risk. However, it is challenging to design a profitable strategy in a complex and dynamic stock market. 
+
+### Following Paper uses a Ensemble Deep Reinforcement Learning Trading Strategy 
+
+[An Application of Deep Reinforcement Learning to Algorithmic Trading](https://arxiv.org/pdf/2004.06627.pdf)
+
+### The strategy includes three actor-critic based algorithms:
+1. Proximal Policy Optimization (PPO)
+2. Advantage Actor Critic (A2C)
+3. Deep Deterministic Policy Gradient (DDPG)
+
+It combines the best features of the three algorithms, thereby robustly adjusting to different market conditions. 
+
+The performance of the trading agent with different reinforcement learning algorithms is evaluated using Sharpe ratio and compared with both the Dow Jones Industrial Average index and the traditional min-variance portfolio allocation strategy. 
 
 
-## Abstract
-Stock trading strategies play a critical role in investment. However, it is challenging to design a profitable strategy in a complex and dynamic stock market. In this paper, we propose a deep ensemble reinforcement learning scheme that automatically learns a stock trading strategy by maximizing investment return. We train a deep reinforcement learning agent and obtain an ensemble trading strategy using the three actor-critic based algorithms: Proximal Policy Optimization (PPO), Advantage Actor Critic (A2C), and Deep Deterministic Policy Gradient (DDPG). The ensemble strategy inherits and integrates the best features of the three algorithms, thereby robustly adjusting to different market conditions. In order to avoid the large memory consumption in training networks with continuous action space, we employ a load-on-demand approach for processing very large data. We test our algorithms on the 30 Dow Jones stocks which have adequate liquidity. The performance of the trading agent with different reinforcement learning algorithms is evaluated and compared with both the Dow Jones Industrial Average index and the traditional min-variance portfolio allocation strategy. The proposed deep ensemble scheme is shown to outperform the three individual algorithms and the two baselines in terms of the risk-adjusted return measured by the Sharpe ratio.
 
-<img src=figs/stock_trading.png width="600">
-
-## Reference
-Hongyang Yang, Xiao-Yang Liu, Shan Zhong, and Anwar Walid. 2020. Deep Reinforcement Learning for Automated Stock Trading: An Ensemble Strategy. In ICAIF ’20: ACM International Conference on AI in Finance, Oct. 15–16, 2020, Manhattan, NY. ACM, New York, NY, USA.
-
-## [Our Medium Blog](https://medium.com/@ai4finance/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
-## Installation:
-```shell
-git clone https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020.git
-```
+### The advantages of deep reinforcement learning
+1. Deep reinforcement learning algorithms can outperform human players in many challenging games. For example, on March 2016, DeepMind’s AlphaGo program, a deep reinforcement learning algorithm, beat the world champion Lee Sedol at the game of Go.
+2. Return maximization as trading goal: by defining the reward function as the change of the portfolio value, Deep Reinforcement Learning maximizes the portfolio value over time.
+3. The stock market provides sequential feedback. DRL can sequentially increase the model performance during the training process.
+4. The exploration-exploitation technique balances trying out different new things and taking advantage of what’s figured out. This is difference from other learning algorithms. Also, there is no requirement for a skilled human to provide training examples or labeled samples. Furthermore, during the exploration process, the agent is encouraged to explore the uncharted by human experts.
+5. Experience replay: is able to overcome the correlated samples issue, since learning from a batch of consecutive samples may experience high variances, hence is inefficient. Experience replay efficiently addresses this issue by randomly sampling mini-batches of transitions from a pre-saved replay memory.
+6. Multi-dimensional data: by using a continuous action space, DRL can handle large dimensional data.
+7. Computational power: Q-learning is a very important RL algorithm, however, it fails to handle large space. DRL, empowered by neural networks as efficient function approximator, is powerful to handle extremely large state space and action space.
+  
 
 
-
-### Prerequisites
-For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows
-
-#### Ubuntu
-
-```bash
-sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev libgl1-mesa-glx
-```
-
-#### Mac OS X
-Installation of system packages on Mac requires [Homebrew](https://brew.sh). With Homebrew installed, run the following:
-```bash
-brew install cmake openmpi
-```
-
-#### Windows 10
-
-To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines.readthedocs.io/en/master/guide/install.html#prerequisites).
-    
-### Create and Activate Virtual Environment (Optional but highly recommended)
-cd into this repository
-```bash
-cd Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020
-```
-Under folder /Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020, create a virtual environment
-```bash
-pip install virtualenv
-```
-Virtualenvs are essentially folders that have copies of python executable and all python packages. 
-
-**Virtualenvs can also avoid packages conflicts.**
-
-Create a virtualenv **venv** under folder /Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020
-```bash
-virtualenv -p python3 venv
-```
-To activate a virtualenv:
-```
-source venv/bin/activate
-```
-
-## Dependencies
-
-The script has been tested running under **Python >= 3.6.0**, with the folowing packages installed:
-
-```shell
-pip install -r requirements.txt
-```
-
-### Questions
-
-### About Tensorflow 2.0: https://github.com/hill-a/stable-baselines/issues/366
-
-If you have questions regarding TensorFlow, note that tensorflow 2.0 is not compatible now, you may use
-
-```bash
-pip install tensorflow==1.15.4
- ```
-
-If you have questions regarding Stable-baselines package, please refer to [Stable-baselines installation guide](https://github.com/hill-a/stable-baselines). Install the Stable Baselines package using pip:
-```
-pip install stable-baselines[mpi]
-```
-
-This includes an optional dependency on MPI, enabling algorithms DDPG, GAIL, PPO1 and TRPO. If you do not need these algorithms, you can install without MPI:
-```
-pip install stable-baselines
-```
-
-Please read the [documentation](https://stable-baselines.readthedocs.io/) for more details and alternatives (from source, using docker).
+### Data
+We track and select the Dow Jones 30 stocks (at 2016/01/01) and use historical daily data from 01/01/2009 to 05/08/2020 to train the agent and test the performance.
+The whole dataset is split in the following figure. Data from 01/01/2009 to 12/31/2014 is used for training, and the data from 10/01/2015 to 12/31/2015 is used for validation and tuning of parameters. Finally, we test our agent’s performance on trading data, which is the unseen out-of-sample data from 01/01/2016 to 05/08/2020. To better exploit the trading data, we continue training our agent while in the trading stage, since this will help the agent to better adapt to the market dynamics.
 
 
-## Run DRL Ensemble Strategy
-```shell
-python run_DRL.py
-```
-## Backtesting
+### MDP model for stock trading:
+•State S = [p, h, b]: a vector that includes stock prices p ∈ R+^D, the stock shares h ∈ Z+^D, and the remaining balance b ∈ R+, where D denotes the number of stocks and Z+ denotes non-negative integers.
+•Action a: a vector of actions over D stocks. The allowed actions on each stock include selling, buying, or holding, which result in decreasing, increasing, and no change of the stock shares h, respectively.
+•Reward r(s,a,s'):the direct reward of taking action a at state s and arriving at the new state s'.
+•Policy π(s): the trading strategy at state s, which is the probability distribution of actions at state s.
+•Q-value Qπ (s,a): the expected reward of taking action ? at state ? following policy π.
+The state transition of our stock trading process is shown in the following figure. At each state, one of three possible actions is taken on stock d (d= 1, …, D) in the portfolio.
+Selling k[d] ∈ [1,h[d]] shares results in ht+1[d] = ht[d] − k[d], where k[d] ∈ Z+ and d =1,…,D.
+Holding, ht+1[d] = ht[d].
+Buying k[d] shares results in ht+1[d] = ht[d] + k[d].
+At time t an action is taken and the stock prices update at t+1, accordingly the portfolio values may change from “portfolio value 0” to “portfolio value 1”, “portfolio value 2”, or “portfolio value 3”, respectively, as illustrated in the below figure. Note that the portfolio value is pT h + b.
 
-Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do the backtesting.
 
-[Backtesting script](backtesting.ipynb)
+### External Constraints:
+Market liquidity: The orders can be rapidly executed at the close price. We assume that stock market will not be affected by our reinforcement trading agent.
+Nonnegative balance: the allowed actions should not result in a negative balance.
+Transaction cost: transaction costs are incurred for each trade. There are many types of transaction costs such as exchange fees, execution fees, and SEC fees. Different brokers have different commission fees. Despite these variations in fees, we assume that our transaction costs to be 1/1000 of the value of each trade (either buy or sell).
+Risk-aversion for market crash: there are sudden events that may cause stock market crash, such as wars, collapse of stock market bubbles, sovereign debt default, and financial crisis. To control the risk in a worst-case scenario like 2008 global financial crisis, we employ the financial turbulence index that measures extreme asset price movements.
 
-## Status
+### Return maximization as trading goal
+Reward function is defined as the change of the portfolio value when action a is taken at state s and arriving at new state s + 1.
+The goal is to design a trading strategy that maximizes the change of the portfolio value r(st,at,st+1) in the dynamic environment, and deep reinforcement learning method is used to solve this problem.
 
-<details><summary><b>Version History</b> <i>[click to expand]</i></summary>
-<div>
 
-* 1.0.1
-	Changes: added ensemble strategy
-* 0.0.1
-    Simple version
-</div>
-</details>
+### Implementation:
 
-## Data
-The stock data we use is pulled from [Compustat database via Wharton Research Data Services](https://wrds-web.wharton.upenn.edu/wrds/ds/compd/fundq).
-<img src=figs/data.PNG width="500">
+Stable Baselines  Python Packaged is used to run the experiments. Stable Baselines is a set of improved implementations of Reinforcement Learning (RL) algorithms based on OpenAI Baselines
 
-### Ensemble Strategy
-Our purpose is to create a highly robust trading strategy. So we use an ensemble method to automatically select the best performing agent among PPO, A2C, and DDPG to trade based on the Sharpe ratio. The ensemble process is described as follows:
-* __Step 1__. We use a growing window of 𝑛 months to retrain our three agents concurrently. In this paper we retrain our three agents at every 3 months.
-* __Step 2__. We validate all 3 agents by using a 12-month validation- rolling window followed by the growing window we used for train- ing to pick the best performing agent which has the highest Sharpe ratio. We also adjust risk-aversion by using turbulence index in our validation stage.
-* __Step 3__. After validation, we only use the best model which has the highest Sharpe ratio to predict and trade for the next quarter.
+### Performance evaluations:
+Quantopian’s pyfolio is used to do the backtesting. 
 
-## Performance
-<img src=figs/performance.png>
+ 
+
+
+### Conclusion:
+The agent was able to successfully learn the policy that gives better return than the benchmark. Also the ensamble of models helps to improve the overall performance of the portfolio.
